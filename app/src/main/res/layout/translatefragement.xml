@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EBEBEB">
+<RelativeLayout
+    android:id="@+id/translate_rl"
+    android:layout_margin="10dp"
+    android:background="#ffffff"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+       android:id="@+id/translate_ll"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="目前支持中英文互译"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:layout_width="0dp"
+android:layout_weight="2"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/translate_bt"
+            android:enabled="false"
+            android:text="翻译"
+            android:textSize="23sp"
+            android:background="#ffffff"
+            android:textColor="#CDC1C5"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+<EditText
+    android:id="@+id/translate_et"
+    android:layout_below="@+id/translate_ll"
+    android:hint="请输入你要翻译的文本"
+    android:gravity="start"
+    android:padding="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="100dp" />
+<ImageButton
+    android:visibility="gone"
+    android:id="@+id/translate_ib_cancel"
+  android:layout_below="@+id/translate_et"
+ android:layout_marginLeft="150dp"
+    android:src="@drawable/camera_edit_cross_highlighted"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+
+</RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/translate_ll_result"
+        android:visibility="gone"
+        android:layout_below="@+id/translate_rl"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="译文"
+            android:padding="10dp"
+            android:background="#ffffff"
+            android:id="@+id/translate_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="网络释义"
+            android:padding="10dp"
+            android:background="#ffffff"
+            android:layout_marginTop="15dp"
+            android:id="@+id/translate_result_more"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <ImageButton
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="150dp"
+        android:background="#EBEBEB"
+        android:src="@drawable/messagescenter_subscription"
+        android:id="@+id/translate_ib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>
