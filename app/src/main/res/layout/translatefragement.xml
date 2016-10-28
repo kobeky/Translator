@@ -53,7 +53,7 @@ android:layout_weight="2"
 
     <LinearLayout
         android:id="@+id/translate_ll_result"
-        android:visibility="gone"
+
         android:layout_below="@+id/translate_rl"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
@@ -68,14 +68,7 @@ android:layout_weight="2"
             android:id="@+id/translate_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        <TextView
-            android:text="网络释义"
-            android:padding="10dp"
-            android:background="#ffffff"
-            android:layout_marginTop="15dp"
-            android:id="@+id/translate_result_more"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+
 
     </LinearLayout>
     <ImageButton

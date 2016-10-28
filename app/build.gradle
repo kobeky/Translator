@@ -28,4 +28,5 @@ dependencies {
     //Optional: see how to use the utility.
     compile 'com.ogaclejapan.smarttablayout:utils-v4:1.6.1@aar'
     compile files('libs/Msc.jar')
+    compile 'com.google.code.gson:gson:2.3.1'
 }
