@@ -1,7 +1,5 @@
 package com.example.anzhuo.translator;
 
-import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -14,21 +12,23 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 /**
  * Created by anzhuo on 2016/10/25.
  */
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
     ViewPager viewPager;
     SmartTabLayout smartTabLayout;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-viewPager= (ViewPager) findViewById(R.id.viewpager);
-        smartTabLayout= (SmartTabLayout) findViewById(R.id.viewpagertab);
-        FragmentPagerItemAdapter fragmentPagerItemAdapter=new FragmentPagerItemAdapter(getSupportFragmentManager(),
-                FragmentPagerItems.with(this).add("词典",DictionaryFragement.class).add("翻译",TranslateFragement.class).add("我的",MeFragement.class).create());
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        smartTabLayout = (SmartTabLayout) findViewById(R.id.viewpagertab);
+
+        FragmentPagerItemAdapter fragmentPagerItemAdapter = new FragmentPagerItemAdapter(getSupportFragmentManager(),
+                FragmentPagerItems.with(this).add("词典", Dictionary_Fragement.class).add("翻译", Translate_Fragement.class).add("我的", Me_Fragement.class).create());
 
 //        ViewPagerItemAdapter adapter=new ViewPagerItemAdapter(ViewPagerItems.with(this).add(
 //                "a",R.layout.tab1).add("b",R.layout.tab2).add("c",R.layout.tab2).create());
-      viewPager.setAdapter(fragmentPagerItemAdapter);
-smartTabLayout.setViewPager(viewPager);
+        viewPager.setAdapter(fragmentPagerItemAdapter);
+        smartTabLayout.setViewPager(viewPager);
     }
 }

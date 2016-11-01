@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -17,6 +19,9 @@ import android.widget.Toast;
  */
 public class Dictionary_Fragement extends Fragment {
     //    View view;
+    private ImageView img_Dailysentence;
+    private TextView engtv_Dailysentence;
+    private TextView chi_Dailysentence;
     private EditText etInput;
     private Button btnTranslate;
     private EditText etResult;
@@ -36,6 +41,10 @@ public class Dictionary_Fragement extends Fragment {
         etResult = (EditText) view.findViewById(R.id.et_result);
         spinnerFrom = (Spinner) view.findViewById(R.id.spinner_from);
         spinnerTo = (Spinner) view.findViewById(R.id.spinner_to);
+        img_Dailysentence = (ImageView) view.findViewById(R.id.img_Dailysentence);
+        engtv_Dailysentence = (TextView) view.findViewById(R.id.engtv_Dailysentence);
+        chi_Dailysentence = (TextView) view.findViewById(R.id.chitv_Dailysentence);
+
 
         btnTranslate.setOnClickListener(new View.OnClickListener() {
             @Override

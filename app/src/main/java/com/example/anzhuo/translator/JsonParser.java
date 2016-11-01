@@ -8,7 +8,7 @@ import org.json.JSONTokener;
  * Created by anzhuo on 2016/10/26.
  */
 public class JsonParser {
-    public static String parseIatResult(String json){
+    public static String parseIatResult(String json) {
         StringBuffer ret = new StringBuffer();
         try {
             JSONTokener tokener = new JSONTokener(json);
