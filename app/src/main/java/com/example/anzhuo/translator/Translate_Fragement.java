@@ -2,6 +2,7 @@ package com.example.anzhuo.translator;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,10 +13,12 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +29,6 @@ import com.iflytek.cloud.RecognizerResult;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechRecognizer;
-import com.iflytek.cloud.SpeechSynthesizer;
 import com.iflytek.cloud.SpeechUtility;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
@@ -34,19 +36,22 @@ import com.iflytek.cloud.ui.RecognizerDialogListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by anzhuo on 2016/10/25.
  */
-public class TranslateFragement extends Fragment {
+public class Translate_Fragement extends Fragment {
     View view;
     Button translate_bt;
     EditText translate_et;
     ImageButton translate_ib_cancel;
+    ImageButton translate_ib_voice;
+    ImageButton translate_ib_copy;
     TextView translate_result;
-    TextView getTranslate_result_more;
-    ImageButton translate_ib;
+    TextView translate_speak;
     LinearLayout translate_ll_result;
 
     HashMap<String, String> mIatResults = new HashMap<String, String>();
@@ -58,20 +63,30 @@ public class TranslateFragement extends Fragment {
 
     int ret = 0; // 函数调用返回值
     SharedPreferences mSharedPreferences;
-SpeechSynthesizers speechSynthesizers;
+    Speech_Synthesizers speechSynthesizers;
+
+    List<TranslateInfo> list=new ArrayList<TranslateInfo>();
+    TransalteAdapter adapter;
+    ListView listView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.translatefragement, container, false);
-speechSynthesizers=new SpeechSynthesizers();
+        speechSynthesizers = new Speech_Synthesizers();
         SpeechUtility.createUtility(getActivity(), SpeechConstant.APPID + "=5805e329");
 
         mToast = Toast.makeText(getActivity(), "", Toast.LENGTH_SHORT);
         translate_ib_cancel = (ImageButton) view.findViewById(R.id.translate_ib_cancel);
+        translate_ib_voice = (ImageButton) view.findViewById(R.id.translate_ib_voice);
+        translate_ib_copy = (ImageButton) view.findViewById(R.id.translate_ib_copy);
         translate_ll_result = (LinearLayout) view.findViewById(R.id.translate_ll_result);
         translate_et = (EditText) view.findViewById(R.id.translate_et);
-        translate_ib = (ImageButton) view.findViewById(R.id.translate_ib);
+        translate_speak = (TextView) view.findViewById(R.id.translate_speak);
         translate_bt = (Button) view.findViewById(R.id.translate_bt);
+        translate_result= (TextView) view.findViewById(R.id.translate_result);
+        listView= (ListView) view.findViewById(R.id.translate_lv);
+        adapter=new TransalteAdapter(getContext().getApplicationContext(),list);
+        listView.setAdapter(adapter);
 
         translate_et.addTextChangedListener(new TextWatcher() {
             @Override
@@ -81,7 +96,7 @@ speechSynthesizers=new SpeechSynthesizers();
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (i >= i1) {
+                if (i >= i1&&!translate_et.getText().toString().equals("")) {
                     translate_bt.setTextColor(Color.BLUE);
                     translate_bt.setEnabled(true);
                     translate_ib_cancel.setVisibility(View.VISIBLE);
@@ -100,7 +115,7 @@ speechSynthesizers=new SpeechSynthesizers();
             }
         });
 
-        translate_ib.setOnClickListener(new View.OnClickListener() {
+        translate_speak.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mIat = SpeechRecognizer.createRecognizer(getActivity(), mInitListener);
@@ -129,18 +144,55 @@ speechSynthesizers=new SpeechSynthesizers();
             @Override
             public void onClick(View view) {
                 Toast.makeText(getContext().getApplicationContext(), "可点击", Toast.LENGTH_SHORT).show();
+                listView.setVisibility(View.GONE);
                 translate_ll_result.setVisibility(View.VISIBLE);
-                speechSynthesizers.SpeechSynthesizers(translate_et.getText().toString(),getContext().getApplicationContext());
+//                speechSynthesizers.SpeechSynthesizers(translate_et.getText().toString(), getContext().getApplicationContext());
+                String content = translate_et.getText().toString().trim();
+                Translate_Result translate_result1 = new Translate_Result();
+                try {
+                    translate_result1.Tests(content, new SetResult() {
+                        @Override
+                        public void oint(String str) {
+                            translate_result.setText(str);
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
             }
         });
 
         translate_ib_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                TranslateInfo info=new TranslateInfo();
+                info.setTv1(translate_et.getText().toString());
                 translate_et.setText(null);
                 translate_ll_result.setVisibility(View.GONE);
+                listView.setVisibility(View.VISIBLE);
+                info.setTv2(translate_result.getText().toString());
+                list.add(0,info);
+                adapter.notifyDataSetChanged();
             }
         });
+
+        translate_ib_copy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Copy.copy(translate_result.getText().toString(),getContext().getApplicationContext());
+                showTip("已复制到剪贴板");
+            }
+        });
+
+        translate_ib_voice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                speechSynthesizers.SpeechSynthesizers(translate_et.getText().toString(), getContext().getApplicationContext());
+            }
+        });
+
         return view;
     }
 
@@ -231,8 +283,8 @@ speechSynthesizers=new SpeechSynthesizers();
         }
         String s = resultBuffer.toString().substring(1, resultBuffer.toString().length() - 1);
         translate_et.setText(s);
-        if(!translate_et.getText().equals("")){
-translate_bt.setTextColor(Color.BLUE);
+        if (!translate_et.getText().equals("")) {
+            translate_bt.setTextColor(Color.BLUE);
             translate_bt.setEnabled(true);
         }
     }
@@ -260,6 +312,13 @@ translate_bt.setTextColor(Color.BLUE);
     private void showTip(final String str) {
         mToast.setText(str);
         mToast.show();
+    }
+
+    public void closeInput() {
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if ((inputMethodManager != null) && this.getActivity().getCurrentFocus() != null) {
+            inputMethodManager.hideSoftInputFromWindow(this.getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
 }

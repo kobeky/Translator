@@ -10,12 +10,13 @@ import android.view.ViewGroup;
 /**
  * Created by anzhuo on 2016/10/25.
  */
-public class MeFragement extends Fragment{
+public class Me_Fragement extends Fragment {
     View view;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view=inflater.inflate(R.layout.mefragement,container,false);
+        view = inflater.inflate(R.layout.mefragement, container, false);
         return view;
     }
 }
