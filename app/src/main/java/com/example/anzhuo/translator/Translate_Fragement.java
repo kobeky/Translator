@@ -65,9 +65,10 @@ public class Translate_Fragement extends Fragment {
     SharedPreferences mSharedPreferences;
     Speech_Synthesizers speechSynthesizers;
 
-    List<TranslateInfo> list=new ArrayList<TranslateInfo>();
+    List<TranslateInfo> list = new ArrayList<TranslateInfo>();
     TransalteAdapter adapter;
     ListView listView;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -82,9 +83,9 @@ public class Translate_Fragement extends Fragment {
         translate_et = (EditText) view.findViewById(R.id.translate_et);
         translate_speak = (TextView) view.findViewById(R.id.translate_speak);
         translate_bt = (Button) view.findViewById(R.id.translate_bt);
-        translate_result= (TextView) view.findViewById(R.id.translate_result);
-        listView= (ListView) view.findViewById(R.id.translate_lv);
-        adapter=new TransalteAdapter(getContext().getApplicationContext(),list);
+        translate_result = (TextView) view.findViewById(R.id.translate_result);
+        listView = (ListView) view.findViewById(R.id.translate_lv);
+        adapter = new TransalteAdapter(getContext().getApplicationContext(), list);
         listView.setAdapter(adapter);
 
         translate_et.addTextChangedListener(new TextWatcher() {
@@ -95,7 +96,7 @@ public class Translate_Fragement extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (i >= i1&&!translate_et.getText().toString().equals("")) {
+                if (i >= i1 && !translate_et.getText().toString().equals("")) {
                     translate_bt.setTextColor(Color.BLUE);
                     translate_bt.setEnabled(true);
                     translate_ib_cancel.setVisibility(View.VISIBLE);
@@ -158,21 +159,19 @@ public class Translate_Fragement extends Fragment {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-
             }
         });
 
         translate_ib_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TranslateInfo info=new TranslateInfo();
+                TranslateInfo info = new TranslateInfo();
                 info.setTv1(translate_et.getText().toString());
                 translate_et.setText(null);
                 translate_ll_result.setVisibility(View.GONE);
                 listView.setVisibility(View.VISIBLE);
                 info.setTv2(translate_result.getText().toString());
-                list.add(0,info);
+                list.add(0, info);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -180,7 +179,7 @@ public class Translate_Fragement extends Fragment {
         translate_ib_copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Copy.copy(translate_result.getText().toString(),getContext().getApplicationContext());
+                Copy.copy(translate_result.getText().toString(), getContext().getApplicationContext());
                 showTip("已复制到剪贴板");
             }
         });
