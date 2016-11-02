@@ -21,7 +21,7 @@ import android.widget.TextView;
 public class PopupWindowService extends Service{
     public static final String OPERATION = "operation";
     public static final int OPERATION_SHOW = 100;
-    private boolean isAdded=false;//是否已增加悬浮窗
+    private boolean isAdded=true;//是否已增加悬浮窗
     private static WindowManager wm;
     private static WindowManager.LayoutParams params;
     private View floatView;
@@ -35,52 +35,23 @@ public class PopupWindowService extends Service{
     private float y;
 
     private String copyValue;
+    String value;
+    TextView titleText;
     @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
+
+
 
     @Override
     public void onCreate() {
         super.onCreate();
-        createFloatView();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    public void onStart(Intent intent, int startId) {
-        super.onStart(intent, startId);
-        if (intent!=null){
-            int operation = intent.getIntExtra(OPERATION, OPERATION_SHOW);
-            switch (operation) {
-                case OPERATION_SHOW:
-                    if (!isAdded) {
-                      wm.addView(floatView,params);
-                    }
-                    break;
-            }
-            copyValue = intent.getStringExtra("copyValue");
-            setupCellView(floatView);
-            Log.i("LM", "=====copyValue :"+copyValue);
-        }
-    }
-    /**
-    *创建悬浮窗
-     */
-    private void createFloatView(){
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         floatView=layoutInflater.inflate(R.layout.popupwindow,null);
         wm= (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         params=new WindowManager.LayoutParams();
         //设置 window type
         params.type=WindowManager.LayoutParams.TYPE_SYSTEM_ERROR;
-        //设置图片格式，效果为背景透明
-params.format= PixelFormat.RGBA_8888;
+        //设置图片格式，效果为背景半透明
+        params.format= PixelFormat.TRANSLUCENT;
         //设置window flag；
         params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                 | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
@@ -112,22 +83,69 @@ params.format= PixelFormat.RGBA_8888;
                 return true;
             }
         });
-        wm.addView(floatView, params);
-        isAdded = true;
     }
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent!=null){
+            int operation = intent.getIntExtra(OPERATION, OPERATION_SHOW);
+            switch (operation) {
+                case OPERATION_SHOW:
+                    if (isAdded) {
+                        isAdded=false;
+                        wm.addView(floatView,params);
+                    }
+                    break;
+            }
+            copyValue = intent.getStringExtra("copyValue");
+            setupCellView(floatView);
+            Log.i("LM", "=====copyValue :"+copyValue);
+        }
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+//    /**
+//    *创建悬浮窗
+//     */
+//    private void createFloatView(){
+//
+//        wm.addView(floatView, params);
+//        isAdded = true;
+//    }
     /**
     *设置悬浮窗子控件
      */
     private void setupCellView(View rootview){
         ImageView closedImg = (ImageView) rootview.findViewById(R.id.float_window_closed);
-        TextView titleText = (TextView) rootview.findViewById(R.id.float_window_title);
-        titleText.setText(copyValue);
+        titleText = (TextView) rootview.findViewById(R.id.float_window_title);
+        Translate_Result result=new Translate_Result();
+        try {
+            result.Tests(copyValue, new SetResult() {
+                @Override
+                public void oint(String str) {
+                    titleText.setText(str);
+                    Log.i("LM",value+456+str+789);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Log.i("LM",value+666666);
         closedImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                     wm.removeView(floatView);
-                isAdded=false;
+                isAdded=true;
             }
         });
+    }
+    @Override
+    public void onDestroy() {
+        wm.removeView(floatView);
+        super.onDestroy();
     }
 }

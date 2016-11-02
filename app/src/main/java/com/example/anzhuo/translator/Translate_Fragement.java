@@ -74,7 +74,6 @@ public class Translate_Fragement extends Fragment {
         view = inflater.inflate(R.layout.translatefragement, container, false);
         speechSynthesizers = new Speech_Synthesizers();
         SpeechUtility.createUtility(getActivity(), SpeechConstant.APPID + "=5805e329");
-
         mToast = Toast.makeText(getActivity(), "", Toast.LENGTH_SHORT);
         translate_ib_cancel = (ImageButton) view.findViewById(R.id.translate_ib_cancel);
         translate_ib_voice = (ImageButton) view.findViewById(R.id.translate_ib_voice);

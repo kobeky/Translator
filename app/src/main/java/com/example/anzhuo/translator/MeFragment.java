@@ -20,10 +20,14 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.example.anzhuo.translator.ClipBoardService;
+import com.example.anzhuo.translator.LoginActivity;
+import com.example.anzhuo.translator.R;
+
 /**
  * Created by anzhuo on 2016/10/25.
  */
-public class MeFragement extends Fragment implements View.OnClickListener{
+public class MeFragment extends Fragment implements View.OnClickListener{
     View view;
     EditText userName;
     RelativeLayout rl_user;
@@ -31,9 +35,8 @@ public class MeFragement extends Fragment implements View.OnClickListener{
     RelativeLayout rl_myArticle;
     RelativeLayout rl_update;
     Switch switch_me;
-    Intent intent;
+    Intent intent=new Intent();
     int on;
-    int off;
     Context context;
     BroadcastReceiver receiver;
     @Nullable
@@ -51,15 +54,24 @@ public class MeFragement extends Fragment implements View.OnClickListener{
         rl_collect.setOnClickListener(this);
         rl_myArticle.setOnClickListener(this);
         rl_update.setOnClickListener(this);
-        intent = new Intent();
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("L",Context.MODE_PRIVATE);
         on = sharedPreferences.getInt("K", on);
         if (on == 1) {
             switch_me.setChecked(true);
+            intent.setClass(getContext(), ClipBoardService.class);
+            context.startService(intent);
         } else {
             switch_me.setChecked(false);
+            intent.setClass(getContext(), ClipBoardService.class);
+            context.stopService(intent);
         }
 
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         switch_me.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -80,7 +92,6 @@ public class MeFragement extends Fragment implements View.OnClickListener{
                 }
             }
         });
-        return view;
     }
 
     @Override
@@ -106,6 +117,7 @@ public class MeFragement extends Fragment implements View.OnClickListener{
                 startActivity(intent);
                 break;
             case R.id.rl_collect:
+                startActivity(new Intent(getContext(),CollectActivity.class));
                 break;
             case R.id.rl_myArticle:
                 break;
@@ -117,23 +129,27 @@ public class MeFragement extends Fragment implements View.OnClickListener{
     public void onDestroy() {
         super.onDestroy();
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("L", Context.MODE_PRIVATE);
-        off = sharedPreferences.getInt("K", off);
-
-        if (off == 1) {
+        on = sharedPreferences.getInt("K", on);
+        if (on == 1) {
             sharedPreferences = getContext().getSharedPreferences("L", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putInt("K", 1);
             editor.commit();
+            intent.setClass(getContext(), ClipBoardService.class);
+            context.startService(intent);
         }else{
             sharedPreferences=getContext().getSharedPreferences("L",Context.MODE_PRIVATE);
             SharedPreferences.Editor editor=sharedPreferences.edit();
             editor.putInt("K",2);
             editor.commit();
+            intent.setClass(getContext(), ClipBoardService.class);
+            context.stopService(intent);
         }
-   getActivity().unregisterReceiver(receiver);
+        getActivity().unregisterReceiver(receiver);
     }
 
 
 
 
 }
+
