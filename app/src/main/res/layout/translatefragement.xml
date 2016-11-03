@@ -18,9 +18,10 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:gravity="center"
                 android:text="目前支持中英文互译"
                 android:textSize="20sp" />
@@ -36,9 +37,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
+                android:textColor="#CDC1C5"
                 android:enabled="false"
                 android:text="翻译"
-                android:textColor="#CDC1C5"
                 android:textSize="23sp" />
         </LinearLayout>
 
@@ -51,20 +52,21 @@
         <EditText
             android:id="@+id/translate_et"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="90dp"
             android:layout_below="@+id/translate_ll"
             android:background="@null"
             android:gravity="start"
-            android:hint="请输入你要翻译的文本"
+            android:hint="请输入中文或英文单词、词组"
             android:padding="10dp" />
 
         <ImageButton
             android:id="@+id/translate_ib_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="#ffffff"
             android:layout_below="@+id/translate_et"
             android:layout_marginLeft="150dp"
-            android:src="@drawable/dict_close_icon_pressed"
+            android:src="@mipmap/cancel"
             android:visibility="gone" />
 
     </RelativeLayout>
@@ -72,13 +74,14 @@
     <LinearLayout
         android:id="@+id/translate_ll_result"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/translate_rl"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:orientation="vertical"
-        android:visibility="gone">
+        >
+
 
         <TextView
             android:id="@+id/translate_result"
@@ -86,7 +89,7 @@
             android:layout_height="wrap_content"
             android:background="#ffffff"
             android:padding="10dp"
-            android:text="译文" />
+            android:text="" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -100,21 +103,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/dict_pronounce_icon_pressed" />
+                android:background="#ffffff"
+                android:src="@drawable/lb" />
 
             <ImageButton
                 android:id="@+id/translate_ib_copy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:src="@drawable/dict_copy_icon_pressed" />
+                android:background="#ffffff"
+                android:src="@drawable/fz" />
 
-            <ImageButton
-                android:id="@+id/translate_ib_collection"
+            <CheckBox
+                android:id="@+id/translate_rb_collection"
+                android:checked="false"
+                android:button="@null"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:src="@drawable/dict_copy_icon_pressed" />
+                android:background="#ffffff"
+                android:drawableLeft="@drawable/scchoose" />
+
         </LinearLayout>
     </LinearLayout>
 
@@ -135,9 +144,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="150dp"
+        android:layout_marginLeft="160dp"
         android:background="#00000060"
-        android:drawableTop="@drawable/plugin_conversation_init"
+        android:drawableTop="@mipmap/voice"
         android:gravity="center"
         android:text="点击说话" />
 

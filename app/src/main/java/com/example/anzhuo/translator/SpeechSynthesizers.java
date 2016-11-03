@@ -14,7 +14,7 @@ import com.iflytek.cloud.SynthesizerListener;
 /**
  * Created by anzhuo on 2016/10/26.
  */
-class Speech_Synthesizers {
+class SpeechSynthesizers {
 
     public void SpeechSynthesizers(String s, final Context context) {
         InitListener mInitListener = new InitListener() {
