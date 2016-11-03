@@ -14,15 +14,15 @@
             android:background="#ffffff"
             >
             <TextView
-                android:id="@+id/tv_userName"
                 android:padding="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="账号"
+                android:textSize="19sp"
                 android:gravity="center"
-                android:drawableLeft="@drawable/settings_icon_passport"
+                android:drawableLeft="@mipmap/personfile"
                 android:drawablePadding="10dp"/>
-            <EditText
+            <TextView
                 android:id="@+id/et_userName"
                 android:layout_toLeftOf="@+id/iv_go"
                 android:gravity="center"
@@ -38,8 +38,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="8dp"
-                android:src="@drawable/msg_mo_item_arrow"/>
+                android:layout_centerVertical="true"
+                android:src="@mipmap/jump"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -50,22 +50,21 @@
             android:layout_marginTop="15dp"
             >
             <TextView
-                android:id="@+id/tv_collect"
                 android:padding="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="收藏"
+                android:textSize="19sp"
                 android:gravity="center"
-                android:drawableLeft="@drawable/settings_icon_favorite"
+                android:drawableLeft="@mipmap/collect"
                 android:drawablePadding="10dp"/>
             <ImageView
-
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="8dp"
-                android:src="@drawable/msg_mo_item_arrow"/>
+                android:layout_centerVertical="true"
+                android:src="@mipmap/jump"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -76,21 +75,21 @@
             android:layout_marginTop="15dp"
             >
             <TextView
-                android:id="@+id/tv_myArticle"
                 android:padding="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="我的文章"
+                android:text="云备份"
+                android:textSize="19sp"
                 android:gravity="center"
-                android:drawableLeft="@drawable/settings_icon_activity"
+                android:drawableLeft="@mipmap/article"
                 android:drawablePadding="10dp"/>
             <ImageView
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="8dp"
-                android:src="@drawable/msg_mo_item_arrow"/>
+                android:layout_centerVertical="true"
+                android:src="@mipmap/jump"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -104,8 +103,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="划词翻译"
+                android:textSize="19sp"
                 android:gravity="center"
-                android:drawableLeft="@drawable/settings_icon_function"
+                android:drawableLeft="@mipmap/function"
                 android:drawablePadding="10dp"/>
             <Switch
                 android:id="@+id/switch_me"
@@ -123,21 +123,44 @@
             android:layout_marginTop="15dp"
             >
             <TextView
-                android:id="@+id/tv_update"
                 android:padding="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="版本更新"
+                android:textSize="19sp"
                 android:gravity="center"
-                android:drawableLeft="@drawable/settings_icon_about"
+                android:drawableLeft="@mipmap/update"
                 android:drawablePadding="10dp"/>
             <ImageView
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="8dp"
-                android:src="@drawable/msg_mo_item_arrow"/>
+                android:layout_centerVertical="true"
+                android:src="@mipmap/jump"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:layout_marginTop="15dp">
+            <TextView
+                android:padding="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="清除缓存"
+                android:textSize="19sp"
+                android:gravity="center"
+                android:drawableLeft="@mipmap/update"
+                android:drawablePadding="10dp"/>
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/jump"/>
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

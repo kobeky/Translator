@@ -68,7 +68,6 @@ public class Translate_Fragement extends Fragment {
     List<TranslateInfo> list = new ArrayList<TranslateInfo>();
     TransalteAdapter adapter;
     ListView listView;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -179,7 +178,7 @@ public class Translate_Fragement extends Fragment {
         translate_ib_copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Copy.copy(translate_result.getText().toString(), getContext().getApplicationContext());
+              Copy.copy(translate_result.getText().toString(), getContext().getApplicationContext());
                 showTip("已复制到剪贴板");
             }
         });

@@ -18,6 +18,7 @@ import android.util.Log;
 public class ClipBoardService extends Service {
     private ClipBoardReceiver mBoardReceiver;
     private MyBinder binder = new MyBinder();
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -43,7 +44,6 @@ public class ClipBoardService extends Service {
         filter.addAction("com.example.anzhuo.translator.ClipBoardReceiver");
         registerReceiver(mBoardReceiver, filter);
     }
-
     @Override
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);

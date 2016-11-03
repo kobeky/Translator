@@ -127,14 +127,12 @@ public class PopupWindowService extends Service{
                 @Override
                 public void oint(String str) {
                     titleText.setText(str);
-                    Log.i("LM",value+456+str+789);
+                    Log.i("LM",str+789);
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        Log.i("LM",value+666666);
         closedImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
