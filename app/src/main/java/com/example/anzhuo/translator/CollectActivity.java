@@ -17,8 +17,8 @@ public class CollectActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.collect_layout);
-        iv_back= (ImageView) findViewById(R.id.iv_back_collect);
-        listView= (ListView) findViewById(R.id.listView_collect);
+        iv_back= (ImageView) findViewById(R.id.local_back);
+        listView= (ListView) findViewById(R.id.local_lv);
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

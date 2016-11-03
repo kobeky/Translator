@@ -29,6 +29,7 @@
         <activity android:name=".CollectActivity"></activity>
         <service android:name=".ClipBoardService"></service>
         <service android:name=".PopupWindowService"></service>
+        <activity android:name=".LocalCollection"></activity>
     </application>
 
 </manifest>

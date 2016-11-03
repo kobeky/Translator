@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         smartTabLayout = (SmartTabLayout) findViewById(R.id.viewpagertab);
 
         FragmentPagerItemAdapter fragmentPagerItemAdapter = new FragmentPagerItemAdapter(getSupportFragmentManager(),
-                FragmentPagerItems.with(this).add("词典", Dictionary_Fragement.class).add("翻译", Translate_Fragement.class).add("我的", MeFragment.class).create());
+                FragmentPagerItems.with(this).add("词典", DictionaryFragement.class).add("翻译",TranslateFragement.class).add("我的", MeFragment.class).create());
 
 //        ViewPagerItemAdapter adapter=new ViewPagerItemAdapter(ViewPagerItems.with(this).add(
 //                "a",R.layout.tab1).add("b",R.layout.tab2).add("c",R.layout.tab2).create());

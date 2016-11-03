@@ -6,6 +6,7 @@ package com.example.anzhuo.translator;
 public class TranslateInfo {
     private String tv1;
     private String tv2;
+    private int collection;
 
     public String getTv1() {
         return tv1;
@@ -21,5 +22,13 @@ public class TranslateInfo {
 
     public void setTv2(String tv2) {
         this.tv2 = tv2;
+    }
+
+    public int getCollection() {
+        return collection;
+    }
+
+    public void setCollection(int collection) {
+        this.collection = collection;
     }
 }

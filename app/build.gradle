@@ -30,4 +30,6 @@ dependencies {
     compile files('libs/Msc.jar')
     compile 'cn.bmob.android:bmob-sdk:3.5.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    //侧滑listView
+    compile 'com.baoyz.swipemenulistview:library:1.3.0'
 }

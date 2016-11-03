@@ -164,7 +164,7 @@ public class Translate_Result {
             switch (msg.what) {
                 case SUCCEE_RESULT:
                     mTextView.setText((String) msg.obj);
-                    Translate_Fragement Translate = new Translate_Fragement();
+                    TranslateFragement Translate = new TranslateFragement();
                     Translate.closeInput();
                     break;
                 case ERROR_TEXT_TOO_LONG:
