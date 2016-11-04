@@ -86,7 +86,7 @@ public class TranslateFragement extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.translatefragement, container, false);
         speechSynthesizers = new SpeechSynthesizers();
-        SpeechUtility.createUtility(getActivity(),SpeechConstant.APPID+"=5805e329");
+        SpeechUtility.createUtility(getActivity(), SpeechConstant.APPID + "=5805e329");
         mToast = Toast.makeText(getActivity(), "", Toast.LENGTH_SHORT);
         tv = (TextView) view.findViewById(R.id.tv);
         translate_ib_cancel = (ImageButton) view.findViewById(R.id.translate_ib_cancel);
@@ -231,7 +231,7 @@ public class TranslateFragement extends Fragment {
         translate_ib_copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String []s=translate_result.getText().toString().split("\n");
+                String[] s = translate_result.getText().toString().split("\n");
                 Copy.copy(s[1].toString(), getContext().getApplicationContext());
                 showTip("已复制到剪贴板");
             }
@@ -240,7 +240,7 @@ public class TranslateFragement extends Fragment {
         translate_ib_voice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String[]s=translate_result.getText().toString().split("\n");
+                String[] s = translate_result.getText().toString().split("\n");
                 speechSynthesizers.SpeechSynthesizers(s[1].toString(), getContext().getApplicationContext());
             }
         });

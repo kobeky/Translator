@@ -15,14 +15,33 @@
             android:id="@+id/img_Dailysentence"
             android:layout_width="match_parent"
             android:layout_height="220dp"
-            android:src="@drawable/qiku_progressbar_loading" />
+            android:src="@drawable/qiku_progressbar_loading"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="130dp"
+                android:layout_marginTop="90dp"
+                android:indeterminateDrawable="@drawable/progress"
+                android:indeterminateDuration="1000" />
+        </RelativeLayout>
+
         <TextView
-            android:text="每日一句"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:textColor="#ffffff"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:text="每日一句"
+            android:textColor="#ffffff" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,8 +56,8 @@
                 android:layout_marginRight="20dp"
                 android:ellipsize="marquee"
                 android:focusable="true"
-                android:marqueeRepeatLimit="marquee_forever"
                 android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
                 android:text=""
                 android:textColor="#ffffff" />
@@ -140,6 +159,7 @@
         android:layout_marginRight="10dp"
         android:textSize="23sp"
         android:visibility="gone" /> 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
