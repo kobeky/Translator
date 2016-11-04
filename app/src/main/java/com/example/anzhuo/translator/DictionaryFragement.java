@@ -131,7 +131,7 @@ public class DictionaryFragement extends Fragment {
             String url = strings[0];
             try {
                 //
-                Thread.sleep(5000);
+                //睡眠Thread.sleep(1000);
                 URL url1 = new URL(url);
                 HttpURLConnection connection = (HttpURLConnection) url1.openConnection();
                 InputStream is = new BufferedInputStream(connection.getInputStream());
@@ -150,8 +150,6 @@ public class DictionaryFragement extends Fragment {
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             return null;
