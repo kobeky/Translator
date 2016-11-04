@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentPagerItemAdapter fragmentPagerItemAdapter = new FragmentPagerItemAdapter(getSupportFragmentManager(),
                 FragmentPagerItems.with(this).add("翻译", DictionaryFragement.class).add("词典", TranslateFragement.class).add("我的", MeFragment.class).create());
-
+//
 //        ViewPagerItemAdapter adapter=new ViewPagerItemAdapter(ViewPagerItems.with(this).add(
 //                "a",R.layout.tab1).add("b",R.layout.tab2).add("c",R.layout.tab2).create());
         viewPager.setAdapter(fragmentPagerItemAdapter);

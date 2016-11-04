@@ -130,6 +130,7 @@ public class DictionaryFragement extends Fragment {
 
             String url = strings[0];
             try {
+                //
                 Thread.sleep(5000);
                 URL url1 = new URL(url);
                 HttpURLConnection connection = (HttpURLConnection) url1.openConnection();
