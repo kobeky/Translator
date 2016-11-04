@@ -117,9 +117,9 @@ public class MeFragment extends Fragment implements View.OnClickListener{
                 startActivity(intent);
                 break;
             case R.id.rl_collect:
-                startActivity(new Intent(getContext(),CollectActivity.class));
                 break;
             case R.id.rl_myArticle:
+                startActivity(new Intent(getContext(),CollectActivity.class));
                 break;
             case R.id.rl_update:
                 Toast.makeText(getContext(), "已经是最新版本", Toast.LENGTH_SHORT).show();
