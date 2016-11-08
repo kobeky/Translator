@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +35,7 @@ import java.net.URL;
  */
 public class DictionaryFragement extends Fragment {
     //    View view;
+    private ProgressBar progressBar;
     private ImageView img_Dailysentence;
     private TextView engtv_Dailysentence;
     private TextView chitv_Dailysentence;
@@ -47,7 +49,7 @@ public class DictionaryFragement extends Fragment {
     private String to = "auto";
     String[] language = {"auto", "zh", "en", "yue", "wyw", "jp", "kor", "fra", "spa", "th", "ara", "ru", "pt", "de", "it", "el", "nl", "pl", "bul", "est", "dan", "fin", "cs", "rom"
             , "slo", "swe", "hu", "cht"};
-    String[] languages = { "zh", "en", "yue", "wyw", "jp", "kor", "fra", "spa", "th", "ara", "ru", "pt", "de", "it", "el", "nl", "pl", "bul", "est", "dan", "fin", "cs", "rom"
+    String[] languages = {"en", "zh", "yue", "wyw", "jp", "kor", "fra", "spa", "th", "ara", "ru", "pt", "de", "it", "el", "nl", "pl", "bul", "est", "dan", "fin", "cs", "rom"
             , "slo", "swe", "hu", "cht"};
 
     @Nullable
@@ -62,8 +64,8 @@ public class DictionaryFragement extends Fragment {
         img_Dailysentence = (ImageView) view.findViewById(R.id.img_Dailysentence);
         engtv_Dailysentence = (TextView) view.findViewById(R.id.engtv_Dailysentence);
         chitv_Dailysentence = (TextView) view.findViewById(R.id.chitv_Dailysentence);
-
-        changeLight(img_Dailysentence,-70);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        changeLight(img_Dailysentence, -70);
 
         new Dailysentence().execute(url);
         btnTranslate.setOnClickListener(new View.OnClickListener() {
@@ -125,8 +127,11 @@ public class DictionaryFragement extends Fragment {
 
         @Override
         protected String doInBackground(String... strings) {
+
             String url = strings[0];
             try {
+                //
+                //睡眠Thread.sleep(1000);
                 URL url1 = new URL(url);
                 HttpURLConnection connection = (HttpURLConnection) url1.openConnection();
                 InputStream is = new BufferedInputStream(connection.getInputStream());
@@ -153,23 +158,26 @@ public class DictionaryFragement extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            progressBar.setVisibility(View.GONE);
+            img_Dailysentence.setVisibility(View.VISIBLE);
             engtv_Dailysentence.setText(engstr);
             chitv_Dailysentence.setText(chistr);
-           Picasso.with(getContext().getApplicationContext()).load(imgurl).into(img_Dailysentence);
+            Picasso.with(getContext().getApplicationContext()).load(imgurl).into(img_Dailysentence);
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
         }
 
     }
 
-    private void changeLight(ImageView imageView,int brightness){
-        ColorMatrix colorMatrix=new ColorMatrix();
+    private void changeLight(ImageView imageView, int brightness) {
+        ColorMatrix colorMatrix = new ColorMatrix();
         colorMatrix.set(new float[]{1, 0, 0, 0, brightness, 0, 1, 0, 0,
                 brightness,// 改变亮度
-                0, 0, 1, 0, brightness, 0, 0, 0, 1, 0 });
+                0, 0, 1, 0, brightness, 0, 0, 0, 1, 0});
         imageView.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
     }
 }

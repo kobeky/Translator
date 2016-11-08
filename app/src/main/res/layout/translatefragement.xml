@@ -37,9 +37,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
-                android:textColor="#CDC1C5"
                 android:enabled="false"
                 android:text="翻译"
+                android:textColor="#CDC1C5"
                 android:textSize="23sp" />
         </LinearLayout>
 
@@ -63,9 +63,9 @@
             android:id="@+id/translate_ib_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#ffffff"
             android:layout_below="@+id/translate_et"
             android:layout_marginLeft="150dp"
+            android:background="#ffffff"
             android:src="@mipmap/cancel"
             android:visibility="gone" />
 
@@ -80,7 +80,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:orientation="vertical"
-        >
+        android:visibility="gone">
 
 
         <TextView
@@ -96,6 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:background="#ffffff"
+
             android:orientation="horizontal">
 
             <ImageButton
@@ -116,12 +117,12 @@
 
             <CheckBox
                 android:id="@+id/translate_rb_collection"
-                android:checked="false"
-                android:button="@null"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:background="#ffffff"
+                android:button="@null"
+                android:checked="false"
                 android:drawableLeft="@drawable/scchoose" />
 
         </LinearLayout>
