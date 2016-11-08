@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="#207b70">
+        android:background="#4861b4">
         <ImageView
             android:id="@+id/iv_back_forget"
             android:layout_width="30dp"
@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="找回密码"
+            android:text="重置密码"
             android:layout_centerInParent="true"
             android:textSize="25sp"
             android:textColor="#0d2520"
@@ -27,16 +27,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:hint="请输入账号"
+        android:hint="请输入注册时使用的邮箱"
         />
     <Button
         android:id="@+id/bt_forget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#00000000"
+        android:background="#feca52"
         android:layout_margin="15dp"
-        android:text="找回密码"
-        android:textColor="#0f8118"
+        android:text="重置密码"
+        android:textColor="#ffffff"
         android:textSize="18sp"
         />
 </LinearLayout>

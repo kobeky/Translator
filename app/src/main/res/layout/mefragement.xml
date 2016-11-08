@@ -68,7 +68,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/rl_myArticle"
+            android:id="@+id/rl_CloudBackup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#ffffff"
@@ -78,10 +78,10 @@
                 android:padding="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="云备份"
+                android:text="云收藏"
                 android:textSize="19sp"
                 android:gravity="center"
-                android:drawableLeft="@mipmap/article"
+                android:drawableLeft="@mipmap/cloud"
                 android:drawablePadding="10dp"/>
             <ImageView
                 android:layout_alignParentRight="true"
@@ -114,7 +114,29 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp" />
         </RelativeLayout>
-
+        <RelativeLayout
+            android:id="@+id/rl_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:layout_marginTop="15dp">
+            <TextView
+                android:padding="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="清除缓存"
+                android:textSize="19sp"
+                android:gravity="center"
+                android:drawableLeft="@mipmap/delete"
+                android:drawablePadding="10dp"/>
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/jump"/>
+        </RelativeLayout>
         <RelativeLayout
             android:id="@+id/rl_update"
             android:layout_width="match_parent"
@@ -139,28 +161,6 @@
                 android:layout_centerVertical="true"
                 android:src="@mipmap/jump"/>
         </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/rl_delete"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#ffffff"
-            android:layout_marginTop="15dp">
-            <TextView
-                android:padding="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="清除缓存"
-                android:textSize="19sp"
-                android:gravity="center"
-                android:drawableLeft="@mipmap/update"
-                android:drawablePadding="10dp"/>
-            <ImageView
-                android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/jump"/>
-        </RelativeLayout>
+
     </LinearLayout>
 </LinearLayout>

@@ -26,7 +26,7 @@
         <activity android:name=".LoginActivity"></activity>
         <activity android:name=".ForgetPassActivity"></activity>
         <activity android:name=".RegisterActivity"></activity>
-        <activity android:name=".CollectActivity"></activity>
+        <activity android:name=".CloudActivity"></activity>
         <service android:name=".ClipBoardService"></service>
         <service android:name=".PopupWindowService"></service>
         <activity android:name=".LocalCollection"></activity>

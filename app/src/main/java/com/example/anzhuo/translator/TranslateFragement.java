@@ -256,7 +256,7 @@ public class TranslateFragement extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 TranslateInfo translateInfo = new TranslateInfo();
-                ;
+
                 if (translate_rb_collection.isChecked()) {
 
                     translateInfo.setTv1(translate_et.getText().toString());
