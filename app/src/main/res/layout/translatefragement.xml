@@ -37,9 +37,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
+                android:textColor="#CDC1C5"
                 android:enabled="false"
                 android:text="翻译"
-                android:textColor="#CDC1C5"
                 android:textSize="23sp" />
         </LinearLayout>
 
@@ -63,10 +63,10 @@
             android:id="@+id/translate_ib_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/translate_et"
-            android:layout_marginLeft="150dp"
             android:background="#ffffff"
-            android:src="@mipmap/cancel"
+            android:layout_below="@+id/translate_et"
+            android:layout_marginLeft="160dp"
+            android:src="@mipmap/qx"
             android:visibility="gone" />
 
     </RelativeLayout>
@@ -80,8 +80,14 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:orientation="vertical"
-        android:visibility="gone">
-
+        android:visibility="gone"
+        >
+<ProgressBar
+    android:id="@+id/translate_pb"
+    android:layout_margin="10dp"
+    android:visibility="gone"
+    android:layout_width="30dp"
+    android:layout_height="30dp" />
 
         <TextView
             android:id="@+id/translate_result"
@@ -96,7 +102,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:background="#ffffff"
-
             android:orientation="horizontal">
 
             <ImageButton
@@ -115,15 +120,15 @@
                 android:background="#ffffff"
                 android:src="@drawable/fz" />
 
-            <CheckBox
+            <ImageButton
                 android:id="@+id/translate_rb_collection"
+                android:checked="false"
+                android:button="@null"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:background="#ffffff"
-                android:button="@null"
-                android:checked="false"
-                android:drawableLeft="@drawable/scchoose" />
+                android:src="@mipmap/sc" />
 
         </LinearLayout>
     </LinearLayout>
@@ -145,7 +150,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="160dp"
+        android:layout_marginLeft="150dp"
         android:background="#00000060"
         android:drawableTop="@mipmap/voice"
         android:gravity="center"

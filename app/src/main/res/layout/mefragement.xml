@@ -14,6 +14,7 @@
             android:background="#ffffff"
             >
             <TextView
+                android:id="@+id/tv_userName"
                 android:padding="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -50,15 +51,16 @@
             android:layout_marginTop="15dp"
             >
             <TextView
+                android:id="@+id/tv_collect"
                 android:padding="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="收藏"
-                android:textSize="19sp"
+                android:text="本地收藏"
                 android:gravity="center"
                 android:drawableLeft="@mipmap/collect"
                 android:drawablePadding="10dp"/>
             <ImageView
+
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -75,6 +77,7 @@
             android:layout_marginTop="15dp"
             >
             <TextView
+                android:id="@+id/tv_myArticle"
                 android:padding="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -121,6 +124,7 @@
             android:background="#ffffff"
             android:layout_marginTop="15dp">
             <TextView
+                android:id="@+id/tv_update"
                 android:padding="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

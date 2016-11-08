@@ -51,7 +51,7 @@ public class DbHelper extends SQLiteOpenHelper{
         return c;
     }
 
-    public void delete()
+    public void delete(String dbName)
     {
         if(db==null)
         {

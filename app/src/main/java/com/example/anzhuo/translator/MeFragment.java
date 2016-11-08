@@ -1,22 +1,34 @@
 package com.example.anzhuo.translator;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.anzhuo.translator.ClipBoardService;
+import com.example.anzhuo.translator.LoginActivity;
+import com.example.anzhuo.translator.R;
 
 /**
  * Created by anzhuo on 2016/10/25.
@@ -28,11 +40,16 @@ public class MeFragment extends Fragment implements View.OnClickListener{
     RelativeLayout rl_collect;
     RelativeLayout rl_cloud;
     RelativeLayout rl_update;
+    RelativeLayout rl_delete;
     Switch switch_me;
     Intent intent=new Intent();
     int on;
     Context context;
     BroadcastReceiver receiver;
+    SQLiteDatabase database;
+    DbHelper dbHelper;
+    TranslateFragement translateFragement;
+    MyDialog myDialog;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -42,12 +59,15 @@ public class MeFragment extends Fragment implements View.OnClickListener{
         rl_user= (RelativeLayout) view.findViewById(R.id.rl_user);
         rl_collect= (RelativeLayout) view.findViewById(R.id.rl_collect);
         rl_cloud= (RelativeLayout) view.findViewById(R.id.rl_CloudBackup);
+        rl_delete= (RelativeLayout) view.findViewById(R.id.rl_delete);
+//        rl_myArticle= (RelativeLayout) view.findViewById(R.id.rl_myArticle);
         rl_update= (RelativeLayout) view.findViewById(R.id.rl_update);
         switch_me= (Switch) view.findViewById(R.id.switch_me);
         rl_user.setOnClickListener(this);
         rl_collect.setOnClickListener(this);
         rl_cloud.setOnClickListener(this);
         rl_update.setOnClickListener(this);
+        rl_delete.setOnClickListener(this);
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("L",Context.MODE_PRIVATE);
         on = sharedPreferences.getInt("K", on);
         if (on == 1) {
@@ -111,6 +131,7 @@ public class MeFragment extends Fragment implements View.OnClickListener{
                 startActivity(intent);
                 break;
             case R.id.rl_collect:
+                startActivity(new Intent(getContext(),LocalCollection.class));
                 break;
             case R.id.rl_CloudBackup:
                 if (!userName.getText().toString().equals("")){
@@ -121,6 +142,30 @@ public class MeFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.rl_update:
                 Toast.makeText(getContext(), "已经是最新版本", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.rl_delete:
+                myDialog=new MyDialog(getContext(),R.style.MyDialog);
+                myDialog.setTitle("删除提示");
+                myDialog.setMessage("是否删除");
+                myDialog.setYesOnclickListener("是", new MyDialog.onYesOnclickListener() {
+                    @Override
+                    public void onYesClick() {
+                        dbHelper=new DbHelper(context);
+                                dbHelper.delete("Result");
+                        Intent intent=new Intent();
+                        intent.setAction("clear");
+                        intent.putExtra("sure",1);
+                        getContext().sendBroadcast(intent);
+                        myDialog.dismiss();
+                    }
+                });
+                myDialog.setNoOnclickListener("否", new MyDialog.onNoOnclickListener() {
+                    @Override
+                    public void onNoClick() {
+                        myDialog.dismiss();
+                    }
+                });
+                myDialog.show();
                 break;
         }
     }

@@ -1,11 +1,16 @@
 package com.example.anzhuo.translator;
 
+import android.content.ContentValues;
+import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +23,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -29,6 +38,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by anzhuo on 2016/10/25.
@@ -45,13 +56,18 @@ public class DictionaryFragement extends Fragment {
     private Spinner spinnerFrom;
     private Spinner spinnerTo;
     private String from = "auto";
+
+    List<TranslateInfo>list;
+    TransalteAdapter adapter;
+    DbHelper dbHelper;
+
     String url = "http://open.iciba.com/dsapi";
     private String to = "auto";
     String[] language = {"auto", "zh", "en", "yue", "wyw", "jp", "kor", "fra", "spa", "th", "ara", "ru", "pt", "de", "it", "el", "nl", "pl", "bul", "est", "dan", "fin", "cs", "rom"
             , "slo", "swe", "hu", "cht"};
-    String[] languages = {"en", "zh", "yue", "wyw", "jp", "kor", "fra", "spa", "th", "ara", "ru", "pt", "de", "it", "el", "nl", "pl", "bul", "est", "dan", "fin", "cs", "rom"
+    String[] languages = {  "en", "zh","yue", "wyw", "jp", "kor", "fra", "spa", "th", "ara", "ru", "pt", "de", "it", "el", "nl", "pl", "bul", "est", "dan", "fin", "cs", "rom"
             , "slo", "swe", "hu", "cht"};
-
+MyDialog myDialog;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,6 +80,10 @@ public class DictionaryFragement extends Fragment {
         img_Dailysentence = (ImageView) view.findViewById(R.id.img_Dailysentence);
         engtv_Dailysentence = (TextView) view.findViewById(R.id.engtv_Dailysentence);
         chitv_Dailysentence = (TextView) view.findViewById(R.id.chitv_Dailysentence);
+
+        dbHelper=new DbHelper(getContext().getApplicationContext());
+
+        changeLight(img_Dailysentence,-70);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         changeLight(img_Dailysentence, -70);
 
@@ -117,6 +137,37 @@ public class DictionaryFragement extends Fragment {
 
             }
         });
+
+        etResult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myDialog=new MyDialog(getContext(),R.style.MyDialog);
+                myDialog.setTitle("操作提示");
+                myDialog.setMessage("请选择你的操作");
+                myDialog.setYesOnclickListener("复制", new MyDialog.onYesOnclickListener() {
+                    @Override
+                    public void onYesClick() {
+                        Copy.copy(etResult.getText().toString(),getContext());
+                        Toast.makeText(getContext(), "已复制到剪贴板", Toast.LENGTH_SHORT).show();
+                        myDialog.dismiss();
+                    }
+                });
+                myDialog.setNoOnclickListener("收藏", new MyDialog.onNoOnclickListener() {
+                    @Override
+                    public void onNoClick() {
+                        ContentValues contentValues=new ContentValues();
+                        contentValues.put("tv1",etInput.getText().toString());
+                        contentValues.put("tv2",etResult.getText().toString());
+                        contentValues.put("collection",2);
+                        dbHelper.insert(contentValues);
+                        myDialog.dismiss();
+                        Toast.makeText(getContext(), "收藏成功！", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                myDialog.show();
+            }
+        });
+
         return view;
     }
 
@@ -127,11 +178,8 @@ public class DictionaryFragement extends Fragment {
 
         @Override
         protected String doInBackground(String... strings) {
-
             String url = strings[0];
             try {
-                //
-                //睡眠Thread.sleep(1000);
                 URL url1 = new URL(url);
                 HttpURLConnection connection = (HttpURLConnection) url1.openConnection();
                 InputStream is = new BufferedInputStream(connection.getInputStream());

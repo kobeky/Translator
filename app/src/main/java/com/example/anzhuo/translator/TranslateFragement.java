@@ -1,9 +1,11 @@
 package com.example.anzhuo.translator;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -12,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +27,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,11 +60,12 @@ public class TranslateFragement extends Fragment {
     ImageButton translate_ib_cancel;
     ImageButton translate_ib_voice;
     ImageButton translate_ib_copy;
-    CheckBox translate_rb_collection;
+    ImageButton translate_rb_collection;
     TextView translate_result;
     TextView translate_speak;
     TextView tv;
     LinearLayout translate_ll_result;
+    ProgressBar translate_pb;
 
     HashMap<String, String> mIatResults = new HashMap<String, String>();
     Toast mToast;
@@ -81,10 +86,19 @@ public class TranslateFragement extends Fragment {
     DbHelper dbHelper;
     ContentValues contentValues;
 
+    BroadcastReceiver receiver;
+    BroadcastReceiver receiver1;
+    String userName = "";
+    String objectId = "";
+    int sure = 0;
+    int collection = 1;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.translatefragement, container, false);
+        SpeechUtility.createUtility(getContext(), SpeechConstant.APPID + "=5805e329");
+        mToast = Toast.makeText(getContext(), "", Toast.LENGTH_SHORT);
         speechSynthesizers = new SpeechSynthesizers();
         SpeechUtility.createUtility(getActivity(), SpeechConstant.APPID + "=5805e329");
         mToast = Toast.makeText(getActivity(), "", Toast.LENGTH_SHORT);
@@ -97,33 +111,27 @@ public class TranslateFragement extends Fragment {
         translate_speak = (TextView) view.findViewById(R.id.translate_speak);
         translate_bt = (Button) view.findViewById(R.id.translate_bt);
         translate_result = (TextView) view.findViewById(R.id.translate_result);
-        translate_rb_collection = (CheckBox) view.findViewById(R.id.translate_rb_collection);
+        translate_rb_collection = (ImageButton) view.findViewById(R.id.translate_rb_collection);
+        translate_pb = (ProgressBar) view.findViewById(R.id.translate_pb);
 
         listView = (ListView) view.findViewById(R.id.translate_lv);
         adapter = new TransalteAdapter(getContext().getApplicationContext(), list);
         listView.setAdapter(adapter);
-
-        dbHelper = new DbHelper(getContext().getApplicationContext());
-        Cursor cursor = dbHelper.query(dbHelper.DB_NAME, null, null, null, null, null, null);
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                TranslateInfo translateInfo = new TranslateInfo();
-                translateInfo.setTv1(cursor.getString(cursor.getColumnIndex("tv1")));
-                translateInfo.setTv2(cursor.getString(cursor.getColumnIndex("tv2")));
-                list.add(0, translateInfo);
-                adapter.notifyDataSetChanged();
-                listView.setVisibility(View.VISIBLE);
+        if (list.size() == 0) {
+            dbHelper = new DbHelper(getContext().getApplicationContext());
+            Cursor cursor = dbHelper.query(dbHelper.DB_NAME, null, null, null, null, null, null);
+            if (cursor != null) {
+                while (cursor.moveToNext()) {
+                    TranslateInfo translateInfo = new TranslateInfo();
+                    translateInfo.setTv1(cursor.getString(cursor.getColumnIndex("tv1")));
+                    translateInfo.setTv2(cursor.getString(cursor.getColumnIndex("tv2")));
+                    list.add(0, translateInfo);
+                    adapter.notifyDataSetChanged();
+                    listView.setVisibility(View.VISIBLE);
+                }
+                cursor.close();
             }
-            cursor.close();
         }
-
-        tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext().getApplicationContext(), LocalCollection.class);
-                startActivity(intent);
-            }
-        });
 
         translate_et.addTextChangedListener(new TextWatcher() {
             @Override
@@ -158,8 +166,8 @@ public class TranslateFragement extends Fragment {
         translate_speak.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mIat = SpeechRecognizer.createRecognizer(getActivity(), mInitListener);
-                mIatDialog = new RecognizerDialog(getActivity(), mInitListener);
+                mIat = SpeechRecognizer.createRecognizer(getContext(), mInitListener);
+                mIatDialog = new RecognizerDialog(getContext(), mInitListener);
                 mSharedPreferences = getActivity().getSharedPreferences(PREFER_NAME, Activity.MODE_PRIVATE);
                 translate_et.setText(null);
                 mIatResults.clear();
@@ -186,6 +194,7 @@ public class TranslateFragement extends Fragment {
                 Toast.makeText(getContext().getApplicationContext(), "可点击", Toast.LENGTH_SHORT).show();
                 listView.setVisibility(View.GONE);
                 translate_ll_result.setVisibility(View.VISIBLE);
+                translate_pb.setVisibility(View.VISIBLE);
                 String content = translate_et.getText().toString().trim();
                 Translate_Result translate_result1 = new Translate_Result();
                 try {
@@ -195,6 +204,7 @@ public class TranslateFragement extends Fragment {
                             String[] strings = str.split("\n");
                             stringResult = strings[1];
                             translate_result.setText(str);
+                            translate_pb.setVisibility(View.GONE);
                             TranslateInfo info = new TranslateInfo();
                             info.setTv1(translate_et.getText().toString());
                             info.setTv2(stringResult);
@@ -224,7 +234,7 @@ public class TranslateFragement extends Fragment {
                 translate_et.setText(null);
                 translate_ll_result.setVisibility(View.GONE);
                 listView.setVisibility(View.VISIBLE);
-
+                sure = 0;
             }
         });
 
@@ -248,55 +258,84 @@ public class TranslateFragement extends Fragment {
         translate_rb_collection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-            }
-        });
-
-        translate_rb_collection.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                TranslateInfo translateInfo = new TranslateInfo();
-
-                if (translate_rb_collection.isChecked()) {
-
-                    translateInfo.setTv1(translate_et.getText().toString());
-                    translateInfo.setCollection(2);
-                    dbHelper.update(translateInfo);
-                    showTip("收藏成功");
-                } else {
-
-                    translateInfo.setTv1(translate_et.getText().toString());
-                    translateInfo.setCollection(1);
-                    dbHelper.update(translateInfo);
-                    showTip("取消收藏");
-                }
-            }
-        });
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                TextView textView = (TextView) view.findViewById(R.id.item_tv1);
-                translate_et.setText(textView.getText().toString());
-                String content = translate_et.getText().toString().trim();
-                Translate_Result translate_result1 = new Translate_Result();
-                try {
-                    translate_result1.Tests(content, new SetResult() {
-                        @Override
-                        public void oint(String str) {
-
-                            translate_result.setText(str);
-                            listView.setVisibility(View.GONE);
-                            translate_ll_result.setVisibility(View.VISIBLE);
+                if (userName.toString().equals("")) {
+                    dbHelper = new DbHelper(getContext().getApplicationContext());
+                    Cursor cursor = dbHelper.query(dbHelper.DB_NAME, null, null, null, null, null, null);
+                    if (cursor != null) {
+                        while (cursor.moveToNext()) {
+                            if (cursor.getInt(cursor.getColumnIndex("collection")) == 2) {
+                                if (cursor.getString(cursor.getColumnIndex("tv1")).equals(translate_et.getText().toString())) {
+                                    showTip("您已经收藏过了！");
+                                    collection = 2;
+                                } else {
+                                    collection = 1;
+                                }
+                            }
+                            if (collection != 2) {
+                                TranslateInfo translateInfo = new TranslateInfo();
+                                translateInfo.setTv1(translate_et.getText().toString());
+                                translateInfo.setCollection(2);
+                                dbHelper.update(translateInfo);
+                                showTip("收藏成功");
+                            }
                         }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    }
                 }
             }
         });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+
+                                        {
+                                            @Override
+                                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                                translate_ll_result.setVisibility(View.VISIBLE);
+                                                translate_pb.setVisibility(View.VISIBLE);
+                                                TextView textView = (TextView) view.findViewById(R.id.item_tv1);
+                                                translate_et.setText(textView.getText().toString());
+                                                String content = translate_et.getText().toString().trim();
+                                                Translate_Result translate_result1 = new Translate_Result();
+                                                try {
+                                                    translate_result1.Tests(content, new SetResult() {
+                                                        @Override
+                                                        public void oint(String str) {
+                                                            translate_result.setText(str);
+                                                            translate_pb.setVisibility(View.GONE);
+                                                            listView.setVisibility(View.GONE);
+                                                        }
+                                                    });
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }
+        );
 
         return view;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("clear");
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                sure = intent.getExtras().getInt("sure");
+            }
+        };
+        getActivity().registerReceiver(receiver, filter);
+
+        IntentFilter filter1 = new IntentFilter();
+        filter1.addAction("com.example.anzhuo.translator.userName");
+        receiver1 = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                userName = intent.getStringExtra("userName").toString();
+            }
+        };
+        getActivity().registerReceiver(receiver1, filter1);
     }
 
     /**
@@ -424,4 +463,13 @@ public class TranslateFragement extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (sure == 1) {
+            list.clear();
+            adapter.notifyDataSetChanged();
+        }
+
+    }
 }

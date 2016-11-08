@@ -35,14 +35,12 @@
         </RelativeLayout>
 
         <TextView
-            android:textSize="18sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:text="每日一句"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:text="每日一句"
-            android:textColor="#ffffff" />
-
+            android:textColor="#ffffff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,8 +55,8 @@
                 android:layout_marginRight="20dp"
                 android:ellipsize="marquee"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:marqueeRepeatLimit="marquee_forever"
+                android:focusableInTouchMode="true"
                 android:singleLine="true"
                 android:text=""
                 android:textColor="#ffffff" />
@@ -156,11 +154,9 @@
         android:id="@+id/et_result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="20dp"
         android:textSize="23sp"
         android:visibility="gone" /> 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
