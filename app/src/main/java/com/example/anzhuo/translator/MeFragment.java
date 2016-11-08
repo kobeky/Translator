@@ -113,7 +113,11 @@ public class MeFragment extends Fragment implements View.OnClickListener{
             case R.id.rl_collect:
                 break;
             case R.id.rl_CloudBackup:
-                startActivity(new Intent(getContext(),CloudActivity.class));
+                if (!userName.getText().toString().equals("")){
+                    startActivity(new Intent(getContext(),CloudActivity.class));
+                }else {
+                    Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.rl_update:
                 Toast.makeText(getContext(), "已经是最新版本", Toast.LENGTH_SHORT).show();
