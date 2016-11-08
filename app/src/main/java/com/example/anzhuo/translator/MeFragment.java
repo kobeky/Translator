@@ -72,12 +72,8 @@ public class MeFragment extends Fragment implements View.OnClickListener{
         on = sharedPreferences.getInt("K", on);
         if (on == 1) {
             switch_me.setChecked(true);
-            intent.setClass(getContext(), ClipBoardService.class);
-            context.startService(intent);
         } else {
             switch_me.setChecked(false);
-            intent.setClass(getContext(), ClipBoardService.class);
-            context.stopService(intent);
         }
 
         return view;
@@ -94,11 +90,7 @@ public class MeFragment extends Fragment implements View.OnClickListener{
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putInt("K", 1);
                     editor.commit();
-                    intent.setClass(getContext(), ClipBoardService.class);
-                    context.startService(intent);
                 } else {
-                    intent.setClass(getContext(), ClipBoardService.class);
-                    context.stopService(intent);
                     SharedPreferences sharedPreferences = getContext().getSharedPreferences("L", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putInt("K", 2);
@@ -169,8 +161,9 @@ public class MeFragment extends Fragment implements View.OnClickListener{
                 break;
         }
     }
-    public void onDestroy() {
-        super.onDestroy();
+    @Override
+    public void onStop() {
+        super.onStop();
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("L", Context.MODE_PRIVATE);
         on = sharedPreferences.getInt("K", on);
         if (on == 1) {
@@ -188,11 +181,10 @@ public class MeFragment extends Fragment implements View.OnClickListener{
             intent.setClass(getContext(), ClipBoardService.class);
             context.stopService(intent);
         }
+    }
+    public void onDestroy() {
+        super.onDestroy();
         getActivity().unregisterReceiver(receiver);
     }
-
-
-
-
 }
 
