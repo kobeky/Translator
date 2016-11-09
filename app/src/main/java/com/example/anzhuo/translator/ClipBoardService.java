@@ -12,6 +12,10 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+
 /**
  * Created by anzhuo on 2016/10/21.
  */
@@ -61,10 +65,8 @@ public class ClipBoardService extends Service {
         }
     }
     class ClipBoardReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
-
             String value= intent.getStringExtra("clipboardvalue");
             Log.i("clipboardvalue",value);
             Intent show = new Intent(ClipBoardService.this, PopupWindowService.class);

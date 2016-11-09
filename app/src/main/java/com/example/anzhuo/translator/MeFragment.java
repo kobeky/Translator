@@ -24,6 +24,9 @@ import android.widget.Toast;
  * Created by anzhuo on 2016/10/25.
  */
 public class MeFragment extends Fragment implements View.OnClickListener{
+
+    private String username;
+
     View view;
     TextView userName;
     RelativeLayout rl_user;
@@ -41,9 +44,13 @@ public class MeFragment extends Fragment implements View.OnClickListener{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.e("MeFragment","onCreateView");
         view=inflater.inflate(R.layout.mefragement,container,false);
         context=this.getContext();
         userName= (TextView) view.findViewById(R.id.et_userName);
+        if(username!=null){
+            userName.setText(username);
+        }
         rl_user= (RelativeLayout) view.findViewById(R.id.rl_user);
         rl_collect= (RelativeLayout) view.findViewById(R.id.rl_collect);
         rl_cloud= (RelativeLayout) view.findViewById(R.id.rl_CloudBackup);
@@ -67,8 +74,39 @@ public class MeFragment extends Fragment implements View.OnClickListener{
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Log.e("MeFragment","onViewCreated");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.e("MeFragment","onViewDestroyed");
+
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        Log.e("MeFragment","onViewStateRestored");
+    }
+
+
+
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.e("MeFragment","onSaveInstanceState");
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
+        Log.e("MeFragment","onStart");
         switch_me.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -88,9 +126,11 @@ public class MeFragment extends Fragment implements View.OnClickListener{
 
     }
 
+
+
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.example.anzhuo.translator.userName");
         receiver=new BroadcastReceiver() {
@@ -98,9 +138,12 @@ public class MeFragment extends Fragment implements View.OnClickListener{
             public void onReceive(Context context, Intent intent) {
                 Log.i("LM",intent.getStringExtra("userName").toString());
                 userName.setText(intent.getStringExtra("userName").toString());
+                username= intent.getStringExtra("userName").toString();
             }
         };
         getActivity().registerReceiver(receiver,filter);
+
+        Log.e("MeFragment","onCreate");
     }
 
     @Override
@@ -151,12 +194,6 @@ public class MeFragment extends Fragment implements View.OnClickListener{
     }
     public void onDestroy() {
         super.onDestroy();
-        getActivity().unregisterReceiver(receiver);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("L", Context.MODE_PRIVATE);
         on = sharedPreferences.getInt("K", on);
         if (on == 1) {
@@ -174,6 +211,9 @@ public class MeFragment extends Fragment implements View.OnClickListener{
             intent.setClass(getContext(), ClipBoardService.class);
             context.stopService(intent);
         }
+        getActivity().unregisterReceiver(receiver);
+        Log.e("MeFragment","onDestroy");
+
     }
 }
 
