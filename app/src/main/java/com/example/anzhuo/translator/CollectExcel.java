@@ -8,6 +8,15 @@ import cn.bmob.v3.BmobObject;
 public class CollectExcel extends BmobObject {
 private String CloudWord;
     private String TranslateWord;
+    private MyUser Author;
+
+    public MyUser getAuthor() {
+        return Author;
+    }
+
+    public void setAuthor(MyUser author) {
+        Author = author;
+    }
 
     public String getCloudWord() {
         return CloudWord;

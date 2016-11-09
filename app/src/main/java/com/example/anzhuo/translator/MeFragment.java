@@ -1,34 +1,24 @@
 package com.example.anzhuo.translator;
 
-import android.app.Activity;
-import android.app.Dialog;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.anzhuo.translator.ClipBoardService;
-import com.example.anzhuo.translator.LoginActivity;
-import com.example.anzhuo.translator.R;
 
 /**
  * Created by anzhuo on 2016/10/25.
@@ -95,11 +85,12 @@ public class MeFragment extends Fragment implements View.OnClickListener{
                 }
             }
         });
+
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onResume() {
+        super.onResume();
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.example.anzhuo.translator.userName");
         receiver=new BroadcastReceiver() {
@@ -158,9 +149,14 @@ public class MeFragment extends Fragment implements View.OnClickListener{
                 break;
         }
     }
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(receiver);
+    }
+
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDetach() {
+        super.onDetach();
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("L", Context.MODE_PRIVATE);
         on = sharedPreferences.getInt("K", on);
         if (on == 1) {
@@ -178,10 +174,6 @@ public class MeFragment extends Fragment implements View.OnClickListener{
             intent.setClass(getContext(), ClipBoardService.class);
             context.stopService(intent);
         }
-    }
-    public void onDestroy() {
-        super.onDestroy();
-        getActivity().unregisterReceiver(receiver);
     }
 }
 

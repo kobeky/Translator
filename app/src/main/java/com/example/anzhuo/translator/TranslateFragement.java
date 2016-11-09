@@ -50,6 +50,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
+
 /**
  * Created by anzhuo on 2016/11/2.
  */
@@ -280,6 +284,22 @@ public class TranslateFragement extends Fragment {
                             }
                         }
                     }
+                }else {
+                    MyUser user= BmobUser.getCurrentUser(MyUser.class);
+                    CollectExcel excel=new CollectExcel();
+                    excel.setCloudWord(translate_et.getText().toString());
+                    excel.setTranslateWord(stringResult);
+                    excel.setAuthor(user);
+                    excel.save(new SaveListener<String>() {
+                        @Override
+                        public void done(String s, BmobException e) {
+                       if (e==null){
+                       }   else {
+//                           Toast.makeText(getContext(), e.getErrorCode()+e.getMessage(), Toast.LENGTH_SHORT).show();
+                       Log.i("LM",e.getMessage()+e.getErrorCode());
+                       }
+                        }
+                    });
                 }
             }
         });
@@ -471,5 +491,12 @@ public class TranslateFragement extends Fragment {
             adapter.notifyDataSetChanged();
         }
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(receiver);
+        getActivity().unregisterReceiver(receiver1);
     }
 }

@@ -66,7 +66,7 @@ public class CloudAdapter extends BaseAdapter implements View.OnClickListener {
              * 整个item的水平滚动层
              */
             holder.itemHorizontalScrollView = (HorizontalScrollView) convertView.findViewById(R.id.hsv);
-
+            holder.normalItemContentLayout=convertView.findViewById(R.id.ll_content);
             /**
              * 操作按钮层
              */
@@ -123,7 +123,8 @@ public class CloudAdapter extends BaseAdapter implements View.OnClickListener {
             holder.itemHorizontalScrollView.scrollTo(0, 0);
         }
         //设置填充内容
-        holder = (ViewHolder) convertView.getTag();
+        holder= (ViewHolder) convertView.getTag();
+        collect=item.get(position);
         holder.CollectWord.setText(collect.getCloudWord());
         holder.TranslateMean.setText(collect.getTranslateWord());
 
@@ -152,7 +153,6 @@ public class CloudAdapter extends BaseAdapter implements View.OnClickListener {
         final int position = (Integer) v.getTag();
         switch (v.getId()) {
             case R.id.bt_delete_cloud:
-                item.remove(position);
                 collect.delete(item.get(position).getObjectId(), new UpdateListener() {
                     @Override
                     public void done(BmobException e) {
@@ -163,6 +163,7 @@ public class CloudAdapter extends BaseAdapter implements View.OnClickListener {
                         }
                     }
                 });
+                item.remove(position);
                 break;
         }
         notifyDataSetChanged();
