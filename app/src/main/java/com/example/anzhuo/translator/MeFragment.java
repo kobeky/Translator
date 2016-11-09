@@ -46,9 +46,7 @@ public class MeFragment extends Fragment implements View.OnClickListener{
     int on;
     Context context;
     BroadcastReceiver receiver;
-    SQLiteDatabase database;
     DbHelper dbHelper;
-    TranslateFragement translateFragement;
     MyDialog myDialog;
     @Nullable
     @Override
@@ -60,7 +58,6 @@ public class MeFragment extends Fragment implements View.OnClickListener{
         rl_collect= (RelativeLayout) view.findViewById(R.id.rl_collect);
         rl_cloud= (RelativeLayout) view.findViewById(R.id.rl_CloudBackup);
         rl_delete= (RelativeLayout) view.findViewById(R.id.rl_delete);
-//        rl_myArticle= (RelativeLayout) view.findViewById(R.id.rl_myArticle);
         rl_update= (RelativeLayout) view.findViewById(R.id.rl_update);
         switch_me= (Switch) view.findViewById(R.id.switch_me);
         rl_user.setOnClickListener(this);
