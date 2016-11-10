@@ -52,9 +52,11 @@ public class PopupWindowService extends Service{
         params.type=WindowManager.LayoutParams.TYPE_SYSTEM_ERROR;
         //设置图片格式，效果为背景半透明
         params.format= PixelFormat.TRANSLUCENT;
+        params.alpha=0.5f;
         //设置window flag；
         params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                 | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+        params.flags=WindowManager.LayoutParams.FLAG_BLUR_BEHIND;
         params.width =getResources().getDimensionPixelSize(R.dimen.float_width);
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         params.gravity = Gravity.LEFT | Gravity.TOP;
@@ -121,6 +123,7 @@ public class PopupWindowService extends Service{
     private void setupCellView(View rootview){
         ImageView closedImg = (ImageView) rootview.findViewById(R.id.float_window_closed);
         titleText = (TextView) rootview.findViewById(R.id.float_window_title);
+        closedImg.setAlpha(0.5f);
         Translate_Result result=new Translate_Result();
         try {
             result.Tests(copyValue, new SetResult() {
@@ -143,7 +146,6 @@ public class PopupWindowService extends Service{
     }
     @Override
     public void onDestroy() {
-        wm.removeView(floatView);
         super.onDestroy();
     }
 }

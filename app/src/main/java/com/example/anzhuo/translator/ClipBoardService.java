@@ -1,5 +1,6 @@
 package com.example.anzhuo.translator;
 
+import android.app.ActivityManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
@@ -15,6 +16,7 @@ import android.util.Log;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.List;
 
 /**
  * Created by anzhuo on 2016/10/21.
@@ -22,7 +24,6 @@ import java.io.FileReader;
 public class ClipBoardService extends Service {
     private ClipBoardReceiver mBoardReceiver;
     private MyBinder binder = new MyBinder();
-
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -72,7 +73,21 @@ public class ClipBoardService extends Service {
             Intent show = new Intent(ClipBoardService.this, PopupWindowService.class);
             show.putExtra(PopupWindowService.OPERATION,PopupWindowService.OPERATION_SHOW);
             show.putExtra("copyValue", value);
-            startService(show);
+            ActivityManager activityManager = (ActivityManager) context
+                    .getSystemService(Context.ACTIVITY_SERVICE);
+            List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager
+                    .getRunningAppProcesses();
+            for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+                if (appProcess.processName.equals(context.getPackageName())) {
+                    if (appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_BACKGROUND) {
+                        //后台
+                        startService(show);
+                    }else{
+                        //前台
+                        stopService(show);
+                    }
+                }
+            }
         }
     }
     @Override

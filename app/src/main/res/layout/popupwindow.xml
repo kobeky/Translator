@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
     <ImageView
         android:id="@+id/float_window_closed"
         android:layout_width="wrap_content"
@@ -10,11 +11,10 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_margin="5dp"
-        android:background="#00000000"
         android:contentDescription="@null"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:src="@mipmap/cancel" />
+        android:src="@mipmap/cancel2" />
     <TextView
         android:id="@+id/float_window_title"
         android:layout_width="match_parent"
@@ -22,24 +22,7 @@
         android:layout_below="@+id/float_window_closed"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="10dp"
-        android:textColor="@android:color/background_dark"
+        android:textColor="#efefef"
         android:textSize="24sp" />
 
-    <View
-        android:layout_below="@+id/float_window_title"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#363535"
-        ></View>
-
-    <TextView
-        android:id="@+id/float_window_explain"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/float_window_title"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="24sp" />
 </RelativeLayout>
