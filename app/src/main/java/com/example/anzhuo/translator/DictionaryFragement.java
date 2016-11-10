@@ -56,9 +56,8 @@ public class DictionaryFragement extends Fragment {
     private Spinner spinnerFrom;
     private Spinner spinnerTo;
     private String from = "auto";
+    TextView tv_result;
 
-    List<TranslateInfo>list;
-    TransalteAdapter adapter;
     DbHelper dbHelper;
 
     String url = "http://open.iciba.com/dsapi";
@@ -75,6 +74,7 @@ MyDialog myDialog;
         etInput = (EditText) view.findViewById(R.id.et_input);
         btnTranslate = (Button) view.findViewById(R.id.translate_bt);
         etResult = (TextView) view.findViewById(R.id.et_result);
+        tv_result= (TextView) view.findViewById(R.id.tv_result);
         spinnerFrom = (Spinner) view.findViewById(R.id.spinner_from);
         spinnerTo = (Spinner) view.findViewById(R.id.spinner_to);
         img_Dailysentence = (ImageView) view.findViewById(R.id.img_Dailysentence);
@@ -85,7 +85,6 @@ MyDialog myDialog;
 
         changeLight(img_Dailysentence,-70);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        changeLight(img_Dailysentence, -70);
 
         new Dailysentence().execute(url);
         btnTranslate.setOnClickListener(new View.OnClickListener() {
@@ -98,8 +97,11 @@ MyDialog myDialog;
                         requestUtils.translate(request, from, to, new HttpCallBack() {
                             @Override
                             public void onSuccess(String result) {
+                                tv_result.setText(etInput.getText().toString());
+                                tv_result.setVisibility(View.VISIBLE);
                                 etResult.setText(result);
                                 etResult.setVisibility(View.VISIBLE);
+                                etInput.setText("");
                             }
 
                             @Override
@@ -156,7 +158,7 @@ MyDialog myDialog;
                     @Override
                     public void onNoClick() {
                         ContentValues contentValues=new ContentValues();
-                        contentValues.put("tv1",etInput.getText().toString());
+                        contentValues.put("tv1",tv_result.getText().toString());
                         contentValues.put("tv2",etResult.getText().toString());
                         contentValues.put("collection",2);
                         dbHelper.insert(contentValues);
@@ -165,6 +167,32 @@ MyDialog myDialog;
                     }
                 });
                 myDialog.show();
+            }
+        });
+
+        etResult.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                myDialog=new MyDialog(getContext(),R.style.MyDialog);
+                myDialog.setTitle("删除提示");
+                myDialog.setMessage("是否删除");
+                myDialog.setYesOnclickListener("是", new MyDialog.onYesOnclickListener() {
+                    @Override
+                    public void onYesClick() {
+                        tv_result.setText(null);
+                        etResult.setText(null);
+                        myDialog.dismiss();
+                    }
+                });
+                myDialog.setNoOnclickListener("否", new MyDialog.onNoOnclickListener() {
+                    @Override
+                    public void onNoClick() {
+                        myDialog.dismiss();
+                    }
+                });
+                myDialog.show();
+
+                return false;
             }
         });
 
@@ -218,7 +246,6 @@ MyDialog myDialog;
             super.onPreExecute();
             progressBar.setVisibility(View.VISIBLE);
         }
-
     }
 
     private void changeLight(ImageView imageView, int brightness) {

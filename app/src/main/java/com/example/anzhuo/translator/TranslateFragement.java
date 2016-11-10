@@ -66,6 +66,7 @@ public class TranslateFragement extends Fragment {
     ImageButton translate_ib_copy;
     ImageButton translate_rb_collection;
     TextView translate_result;
+    TextView translate_resultContent;
     TextView translate_speak;
     TextView tv;
     LinearLayout translate_ll_result;
@@ -93,7 +94,7 @@ public class TranslateFragement extends Fragment {
     BroadcastReceiver receiver;
     BroadcastReceiver receiver1;
     String userName = "";
-    String objectId = "";
+    String user = "";
     int sure = 0;
     int collection = 1;
 
@@ -104,8 +105,6 @@ public class TranslateFragement extends Fragment {
         SpeechUtility.createUtility(getContext(), SpeechConstant.APPID + "=5805e329");
         mToast = Toast.makeText(getContext(), "", Toast.LENGTH_SHORT);
         speechSynthesizers = new SpeechSynthesizers();
-        SpeechUtility.createUtility(getActivity(), SpeechConstant.APPID + "=5805e329");
-        mToast = Toast.makeText(getActivity(), "", Toast.LENGTH_SHORT);
         tv = (TextView) view.findViewById(R.id.tv);
         translate_ib_cancel = (ImageButton) view.findViewById(R.id.translate_ib_cancel);
         translate_ib_voice = (ImageButton) view.findViewById(R.id.translate_ib_voice);
@@ -115,6 +114,7 @@ public class TranslateFragement extends Fragment {
         translate_speak = (TextView) view.findViewById(R.id.translate_speak);
         translate_bt = (Button) view.findViewById(R.id.translate_bt);
         translate_result = (TextView) view.findViewById(R.id.translate_result);
+        translate_resultContent = (TextView) view.findViewById(R.id.translate_result1);
         translate_rb_collection = (ImageButton) view.findViewById(R.id.translate_rb_collection);
         translate_pb = (ProgressBar) view.findViewById(R.id.translate_pb);
 
@@ -195,27 +195,28 @@ public class TranslateFragement extends Fragment {
         translate_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext().getApplicationContext(), "可点击", Toast.LENGTH_SHORT).show();
                 listView.setVisibility(View.GONE);
                 translate_ll_result.setVisibility(View.VISIBLE);
                 translate_pb.setVisibility(View.VISIBLE);
                 String content = translate_et.getText().toString().trim();
-                Translate_Result translate_result1 = new Translate_Result();
+                final Translate_Result translate_result1 = new Translate_Result();
                 try {
                     translate_result1.Tests(content, new SetResult() {
                         @Override
                         public void oint(String str) {
                             String[] strings = str.split("\n");
                             stringResult = strings[1];
+                            translate_resultContent.setText(translate_et.getText().toString());
                             translate_result.setText(str);
+
                             translate_pb.setVisibility(View.GONE);
                             TranslateInfo info = new TranslateInfo();
-                            info.setTv1(translate_et.getText().toString());
+                            info.setTv1(translate_resultContent.getText().toString());
                             info.setTv2(stringResult);
                             list.add(0, info);
                             adapter.notifyDataSetChanged();
                             contentValues = new ContentValues();
-                            contentValues.put("tv1", translate_et.getText().toString());
+                            contentValues.put("tv1", translate_resultContent.getText().toString());
                             contentValues.put("tv2", stringResult);
                             contentValues.put("collection", 1);
                             DbHelper dbHelper = new DbHelper(getContext().getApplicationContext());
@@ -268,7 +269,7 @@ public class TranslateFragement extends Fragment {
                     if (cursor != null) {
                         while (cursor.moveToNext()) {
                             if (cursor.getInt(cursor.getColumnIndex("collection")) == 2) {
-                                if (cursor.getString(cursor.getColumnIndex("tv1")).equals(translate_et.getText().toString())) {
+                                if (cursor.getString(cursor.getColumnIndex("tv1")).equals(translate_resultContent.getText().toString())) {
                                     showTip("您已经收藏过了！");
                                     collection = 2;
                                 } else {
@@ -277,27 +278,27 @@ public class TranslateFragement extends Fragment {
                             }
                             if (collection != 2) {
                                 TranslateInfo translateInfo = new TranslateInfo();
-                                translateInfo.setTv1(translate_et.getText().toString());
+                                translateInfo.setTv1(translate_resultContent.getText().toString());
                                 translateInfo.setCollection(2);
                                 dbHelper.update(translateInfo);
                                 showTip("收藏成功");
                             }
                         }
                     }
-                }else {
-                    MyUser user= BmobUser.getCurrentUser(MyUser.class);
-                    CollectExcel excel=new CollectExcel();
+                } else {
+                    MyUser user = BmobUser.getCurrentUser(MyUser.class);
+                    CollectExcel excel = new CollectExcel();
                     excel.setCloudWord(translate_et.getText().toString());
                     excel.setTranslateWord(stringResult);
                     excel.setAuthor(user);
                     excel.save(new SaveListener<String>() {
                         @Override
                         public void done(String s, BmobException e) {
-                       if (e==null){
-                       }   else {
+                            if (e == null) {
+                            } else {
 //                           Toast.makeText(getContext(), e.getErrorCode()+e.getMessage(), Toast.LENGTH_SHORT).show();
-                       Log.i("LM",e.getMessage()+e.getErrorCode());
-                       }
+                                Log.i("LM", e.getMessage() + e.getErrorCode());
+                            }
                         }
                     });
                 }
@@ -312,8 +313,9 @@ public class TranslateFragement extends Fragment {
                                                 translate_ll_result.setVisibility(View.VISIBLE);
                                                 translate_pb.setVisibility(View.VISIBLE);
                                                 TextView textView = (TextView) view.findViewById(R.id.item_tv1);
+                                                translate_resultContent.setText(textView.getText().toString());
                                                 translate_et.setText(textView.getText().toString());
-                                                String content = translate_et.getText().toString().trim();
+                                                String content = translate_resultContent.getText().toString().trim();
                                                 Translate_Result translate_result1 = new Translate_Result();
                                                 try {
                                                     translate_result1.Tests(content, new SetResult() {
@@ -330,7 +332,6 @@ public class TranslateFragement extends Fragment {
                                             }
                                         }
         );
-
         return view;
     }
 
@@ -353,9 +354,17 @@ public class TranslateFragement extends Fragment {
             @Override
             public void onReceive(Context context, Intent intent) {
                 userName = intent.getStringExtra("userName").toString();
+                if (!userName.toString().equals("")) {
+                    Intent intent3 = new Intent();
+                    intent3.setAction("user1");
+                    intent3.putExtra("u1", userName.toString());
+                    getContext().sendBroadcast(intent);
+                }
             }
         };
         getActivity().registerReceiver(receiver1, filter1);
+
+
     }
 
     /**
@@ -443,7 +452,7 @@ public class TranslateFragement extends Fragment {
         for (String key : mIatResults.keySet()) {
             resultBuffer.append(mIatResults.get(key));
         }
-        String s = resultBuffer.toString().substring(1, resultBuffer.toString().length() - 1);
+        String s = resultBuffer.toString().substring(1, resultBuffer.toString().length());
         translate_et.setText(s);
         if (!translate_et.getText().equals("")) {
             translate_bt.setTextColor(Color.BLUE);
@@ -487,16 +496,16 @@ public class TranslateFragement extends Fragment {
     public void onResume() {
         super.onResume();
         if (sure == 1) {
+            translate_et.setText("");
             list.clear();
             adapter.notifyDataSetChanged();
         }
-
     }
 
-    @Override
     public void onDestroy() {
         super.onDestroy();
         getActivity().unregisterReceiver(receiver);
         getActivity().unregisterReceiver(receiver1);
     }
+
 }

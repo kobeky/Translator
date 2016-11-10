@@ -96,7 +96,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (requestCode==10&&resultCode==RESULT_OK){
             et_user.setText(data.getStringExtra("name"));
         }
-
     }
 
 }

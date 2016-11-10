@@ -6,52 +6,59 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#4861b4">
+        android:background="#1E90FF">
         <ImageButton
             android:id="@+id/ib_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/back1"
             android:background="@null"
-            android:layout_margin="10dp"/>
+            android:layout_margin="5dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="登录"
-            android:textSize="25sp"
+            android:textSize="21sp"
+            android:textColor="#ffffff"
             android:layout_centerInParent="true"/>
     </RelativeLayout>
-    <View
+    <LinearLayout
+        android:background="@drawable/bg"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#b8babc"></View>
-    <EditText
-        android:id="@+id/et_userName_login"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:hint="请输入账号"
-        android:padding="12dp"
-        android:background="@null"
-        ></EditText>
-    <View
-        android:layout_width="match_parent"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_height="1dp"
-        android:background="#b4b0b0"></View>
-    <EditText
-        android:id="@+id/et_password"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:hint="请输入密码"
-        android:padding="12dp"
-        android:inputType="textPassword"
-        android:background="@null"
-        ></EditText>
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/et_userName_login"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:hint="请输入账号"
+            android:padding="12dp"
+            android:background="@null"
+            ></EditText>
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_height="1dp"
+            android:background="#b4b0b0"></View>
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:hint="请输入密码"
+            android:padding="12dp"
+            android:inputType="textPassword"
+            android:background="@null"
+            ></EditText>
+    </LinearLayout>
+
     <Button
         android:id="@+id/bt_login"
         android:layout_width="match_parent"
@@ -61,12 +68,12 @@
         android:layout_marginTop="20dp"
         android:text="登录"
         android:textColor="#ffffff"
-        android:background="#feca52"/>
+        android:background="#1E90FF"/>
     <TextView
         android:id="@+id/tv_regeist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="25dp"
         android:text="？没有账号，赶紧注册一个吧！"
         android:layout_gravity="center"/>
     <TextView

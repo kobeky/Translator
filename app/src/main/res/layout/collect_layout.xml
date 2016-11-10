@@ -11,7 +11,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:background="#1E90FF"
-            android:src="@drawable/ic_video_back"
+            android:src="@mipmap/back1"
             android:layout_height="wrap_content" />
         <TextView
             android:text="本地收藏"

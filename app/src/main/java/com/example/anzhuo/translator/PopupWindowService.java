@@ -3,6 +3,7 @@ package com.example.anzhuo.translator;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -123,7 +124,8 @@ public class PopupWindowService extends Service{
     private void setupCellView(View rootview){
         ImageView closedImg = (ImageView) rootview.findViewById(R.id.float_window_closed);
         titleText = (TextView) rootview.findViewById(R.id.float_window_title);
-        closedImg.setAlpha(0.5f);
+        closedImg.setAlpha(1.0f);
+//        closedImg.setBackgroundColor(Color.parseColor());
         Translate_Result result=new Translate_Result();
         try {
             result.Tests(copyValue, new SetResult() {
